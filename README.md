@@ -55,7 +55,7 @@
                 <img src="https://img.shields.io/badge/Guava-informational?style=flat&color=white" alt=""/>
                 <br><b>Name:</b> «‎Проект gradle с модульной структурой»
                 <br><b>Goal:</b> Научиться создавать проект Gradle (Maven), подготовиться к выполнению домашних заданий.
-                <br><b>Status:</b> ⬜ In progress
+                <br><b>Status:</b> ✅ Resolved
             </li>
         </ol>
     </div>
