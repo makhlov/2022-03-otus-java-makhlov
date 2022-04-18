@@ -17,12 +17,6 @@ public class CustomerService {
     public Map.Entry<Customer, String> getNext(Customer customer) {
         Map.Entry<Customer, String> higherEntry = customerDataMap.higherEntry(customer);
         return higherEntry != null ? Map.entry(new Customer(higherEntry.getKey()), higherEntry.getValue()) : null;
-
-        /*
-           Map.Entry<Customer, String> nullableEntry
-                = Optional.ofNullable(customerDataMap.higherEntry(customer)).orElseThrow(IllegalArgumentException::new);
-           return Map.entry(new Customer(nullableEntry.getKey()), nullableEntry.getValue());
-        */
     }
 
     public void add(Customer customer, String data) {
