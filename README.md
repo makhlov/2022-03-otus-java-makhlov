@@ -46,7 +46,7 @@
         <ol>
             <li>
                 <h4>⬛ Project: 
-                    <a href="">
+                    <a href="https://github.com/makhlov/2022-03-otus-java-makhlov/tree/main/hw01-gradle">
                          hw01-gradle
                     </a>
                 </h4>
@@ -55,6 +55,18 @@
                 <img src="https://img.shields.io/badge/Guava-informational?style=flat&color=white" alt=""/>
                 <br><b>Name:</b> «‎Проект gradle с модульной структурой»
                 <br><b>Goal:</b> Научиться создавать проект Gradle (Maven), подготовиться к выполнению домашних заданий.
+                <br><b>Status:</b> ✅ Resolved
+            </li>
+            <li>
+                <h4>⬛ Project: 
+                    <a href="https://github.com/makhlov/2022-03-otus-java-makhlov/tree/main/hw02-generics">
+                         hw02-generics
+                    </a>
+                </h4>
+                <img src="https://img.shields.io/badge/Collections-informational?style=flat&color=white" alt=""/>
+                <img src="https://img.shields.io/badge/Generics-informational?style=flat&color=white" alt=""/>
+                <br><b>Name:</b> «‎Применение коллекций»
+                <br><b>Goal:</b> Попрактиковать различные аспекты коллекций, познакомиться с реализациями Map
                 <br><b>Status:</b> ✅ Resolved
             </li>
         </ol>
