@@ -69,6 +69,18 @@
                 <br><b>Goal:</b> Попрактиковать различные аспекты коллекций, познакомиться с реализациями Map
                 <br><b>Status:</b> ✅ Resolved
             </li>
+            <li>
+                <h4>⬛ Project: 
+                    <a href="https://github.com/makhlov/2022-03-otus-java-makhlov/tree/main/hw03-reflection">
+                         hw03-reflection
+                    </a>
+                </h4>
+                <img src="https://img.shields.io/badge/Reflection_API-informational?style=flat&color=white" alt=""/>
+                <img src="https://img.shields.io/badge/Annotation-informational?style=flat&color=white" alt=""/>
+                <br><b>Name:</b> «‎Свой тестовый фреймворк»
+                <br><b>Goal:</b> Написать свой тестовый фреймворк
+                <br><b>Status:</b> ✅ Resolved
+            </li>
         </ol>
     </div>
 </div>
