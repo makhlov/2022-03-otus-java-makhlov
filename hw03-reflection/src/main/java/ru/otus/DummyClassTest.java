@@ -4,7 +4,7 @@ import ru.otus.framework.annotation.After;
 import ru.otus.framework.annotation.Before;
 import ru.otus.framework.annotation.Test;
 
-public class CustomMathTest {
+public class DummyClassTest {
     @Before
     void before() {
         System.out.println("\n<Before method is running>");

@@ -17,33 +17,37 @@ public class TestPerformer {
 
     public static void performTests(String className) throws ClassNotFoundException {
         final Class<?> underTestClass = Class.forName(className);
+
+        final var beforeMethods = getMethodsFromClassWithAnnotation(underTestClass, Before.class);
+        final var afterMethods = getMethodsFromClassWithAnnotation(underTestClass, After.class);
+        final var underTestMethods = getMethodsFromClassWithAnnotation(underTestClass, Test.class);
+
         int failed = 0;
-        var underTestMethods = getMethodsFromClassWithAnnotation(underTestClass, Test.class);
         for (var method : underTestMethods) {
             Object underTestObject = instantiate(underTestClass);
             try {
-                runBeforeMethods(underTestObject, underTestClass);
+                runBeforeMethods(underTestObject, beforeMethods);
                 callMethod(underTestObject, method);
             } catch (Exception e) {
                 System.out.println("\nTest failed with message: " + e.getMessage());
                 failed++;
             } finally {
-                runAfterMethods(underTestObject, underTestClass);
+                runAfterMethods(underTestObject, afterMethods);
             }
         }
         System.out.println(getStatisticString(underTestMethods.size(), failed));
     }
 
-    private static void runMethods(Object classInstance, List<Method> methods) {
+    private static void runMethods(final Object classInstance, final List<Method> methods) {
         methods.forEach(method -> callMethod(classInstance, method));
     }
 
-    private static void runBeforeMethods(Object underTestObject, Class<?> underTestClass) {
-        runMethods(underTestObject, getMethodsFromClassWithAnnotation(underTestClass, Before.class));
+    private static void runBeforeMethods(final Object underTestObject, final List<Method> beforeMethods) {
+        runMethods(underTestObject, beforeMethods);
     }
 
-    private static void runAfterMethods(Object underTestObject, Class<?> underTestClass) {
-        runMethods(underTestObject, getMethodsFromClassWithAnnotation(underTestClass, After.class));
+    private static void runAfterMethods(final Object underTestObject, final List<Method> afterMethods) {
+        runMethods(underTestObject, afterMethods);
     }
 
     private static String getStatisticString(int total, int failed) {
