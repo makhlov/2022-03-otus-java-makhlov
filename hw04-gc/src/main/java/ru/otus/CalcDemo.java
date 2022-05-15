@@ -10,7 +10,7 @@ package ru.otus;
 */
 
 
-import java.time.LocalDateTime;
+import static java.time.LocalTime.now;
 
 public class CalcDemo {
     public static void main(String[] args) {
@@ -18,12 +18,12 @@ public class CalcDemo {
         var summator = new Summator();
         long startTime = System.currentTimeMillis();
 
-        for (var idx = 0; idx < counter; idx++) {
+        for (int idx = 0; idx < counter; idx++) {
             var data = new Data(idx);
             summator.calc(data);
 
             if (idx % 10_000_000 == 0) {
-                System.out.println(LocalDateTime.now() + " current idx:" + idx);
+                System.out.println(now() + " current idx:" + idx);
             }
         }
 
