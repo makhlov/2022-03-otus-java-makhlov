@@ -81,6 +81,17 @@
                 <br><b>Goal:</b> Написать свой тестовый фреймворк
                 <br><b>Status:</b> ✅ Resolved
             </li>
+            <li>
+                <h4>⬛ Project: 
+                    <a href="https://github.com/makhlov/2022-03-otus-java-makhlov/tree/main/hw04-gc">
+                         hw03-gc
+                    </a>
+                </h4>
+                <img src="https://img.shields.io/badge/Garbage_Collector-informational?style=flat&color=white" alt=""/>
+                <br><b>Name:</b> «‎Определение нужного размера хипа»
+                <br><b>Goal:</b> На примере простого приложения понять какое влияние оказывают сборщики мусора
+                <br><b>Status:</b> ✅ Resolved
+            </li>   
         </ol>
     </div>
 </div>
