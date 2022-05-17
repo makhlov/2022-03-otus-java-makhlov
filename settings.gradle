@@ -11,5 +11,7 @@ include 'le03-qa'
 include 'le04-generics'
 include 'hw02-generics'
 
+include 'le05-collections'
+
 include 'hw03-reflection'
 include 'hw04-gc'
