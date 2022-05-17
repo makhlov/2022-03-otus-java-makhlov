@@ -3,6 +3,9 @@ rootProject.name = '2022-03-otus-java-makhlov'
 include 'hw01-gradle'
 include 'le01-gradle'
 
+include 'le02-gradle'
+include 'le02-gradle-lib-api'
+
 include 'hw02-generics'
 include 'hw03-reflection'
 include 'hw04-gc'
