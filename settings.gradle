@@ -13,5 +13,7 @@ include 'hw02-generics'
 
 include 'le05-collections'
 
+include 'le06-annotations'
 include 'hw03-reflection'
+
 include 'hw04-gc'
