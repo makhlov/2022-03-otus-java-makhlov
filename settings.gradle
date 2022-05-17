@@ -16,4 +16,6 @@ include 'le05-collections'
 include 'le06-annotations'
 include 'hw03-reflection'
 
+include 'le08-gc:demo'
+include 'le08-gc:homework'
 include 'hw04-gc'
