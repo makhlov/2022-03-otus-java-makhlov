@@ -6,6 +6,8 @@ include 'le01-gradle'
 include 'le02-gradle'
 include 'le02-gradle-lib-api'
 
+include 'le03-qa'
+
 include 'hw02-generics'
 include 'hw03-reflection'
 include 'hw04-gc'
