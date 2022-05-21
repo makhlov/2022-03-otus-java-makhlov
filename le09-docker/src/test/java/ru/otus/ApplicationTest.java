@@ -17,7 +17,7 @@ class ApplicationTest extends BaseContainerTest {
     @Test
     void test() throws URISyntaxException, IOException, InterruptedException {
         //given
-        int appPort = BaseContainerTest.getPort();
+        int appPort = BaseContainerTest.getPort(); // (3) Получаем порт контейнера для отправки запроса
         String uriStr = String.format("http://localhost:%d/hi?name=Ivan", appPort);
         String dockerHostName = BaseContainerTest.getHost();
         String expectedBody = String.format("Hi, Ivan. It works, host: %s", dockerHostName);

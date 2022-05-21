@@ -1,3 +1,5 @@
+#Нам надо поднять несколько контейнеров, при этом они должны быть связаны друг с другом
+#Они должны быть в одной сети (должна быть сетевая видимость) и один контейнер зависит от другого
 version: "3.9"
 services:
   zookeeper:
@@ -22,3 +24,6 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+#Запуск: находясь в директории: ./docker-compose up
+#Ждем и чекаем что поднялось: docker ps
