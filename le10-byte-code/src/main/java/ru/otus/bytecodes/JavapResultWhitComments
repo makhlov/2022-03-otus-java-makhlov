@@ -1,0 +1,83 @@
+/* javap -c -verbose .\le10-byte-code\build\classes\java\main\ru\otus\bytecodes\OneOne.class */
+
+public class ru.otus.bytecodes.OneOne
+  minor version: 0
+  major version: 61
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #7                          // ru/otus/bytecodes/OneOne
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+
+/* Все возможные константы добавляются в пулл и далее по всему коду заменяется на #<номер> */
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Class              #8             // ru/otus/bytecodes/OneOne
+   #8 = Utf8               ru/otus/bytecodes/OneOne
+   #9 = Utf8               Code
+  #10 = Utf8               LineNumberTable
+  #11 = Utf8               LocalVariableTable
+  #12 = Utf8               this
+  #13 = Utf8               Lru/otus/bytecodes/OneOne;
+  #14 = Utf8               add
+  #15 = Utf8               (II)I
+  #16 = Utf8               x
+  #17 = Utf8               I
+  #18 = Utf8               y
+  #19 = Utf8               r
+  #20 = Utf8               Z
+  #21 = Utf8               SourceFile
+  #22 = Utf8               OneOne.java
+{
+  //Модификатор доступа, полное имя класса, включая пакет
+  public ru.otus.bytecodes.OneOne();
+  //Далее идет описание методов:
+    //Дефолтный конструктор
+    descriptor: ()V                           //descriptor описывает сигнатуру метода
+    flags: (0x0001) ACC_PUBLIC                //Указывает модификатор доступа
+    Code:
+      stack=1, locals=1, args_size=1  //Эти строки описаны ниже у int add; далее ввиде байт-кодов выполняется тело метода
+         0: aload_0             //загружаем значение нулевого эл. и загружается на стек
+         1: invokespecial #1   //далее берется метод с пулла констант - берется класс Object и вызывается конструктор (метод init)
+         4: return              //далее результат возвращается
+//Про цифры 0 1 4: у байт-кода команды в основном однобайтные, хотя есть исключения. Здесь мы видим своего рода таблицу координат,
+//т.е. сколько байт занимает коннкретная инструкция. Так инструкция aload_0 занимает 1 байт, а инструкция invokespecial #1
+//Занимает 3 байта, return занимает 1 байт
+      LineNumberTable:
+        line 6: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lru/otus/bytecodes/OneOne;
+
+
+  int add(int, int);
+    descriptor: (II)I                   //сигнатура: два int и int возвращается
+    flags: (0x0000)                     //Указывает модификатор доступа
+    Code:
+    //Все операции в Java делаются через стек, поэтому важно понимать, сколько еста будет
+    //требовать метод на стеке. Этот метод бутед занимать: две позиции на стеке (stack=2)
+      stack=2, locals=4, args_size=3
+    //args_size - все входящие аргумента приходят в метод ввиде массива: нулевой это неявный arg (this)
+         0: iconst_1
+         1: istore_3
+         2: iload_1     //Здесь все команды длинной в 1 байт
+         3: iload_2
+         4: iadd
+         5: ireturn
+    //Таблица LienNumberTable - это соотношение строчек в байт-коде и строчек в исходном коде для того, чтобы
+    //разные штуки вроде дебагера могли четко нас позиционировать, чтобы мы понимали где что выполняется.
+    //Для каждого метода таблица своя. Не является обязательной.
+      LineNumberTable:
+        line 8: 0
+        line 9: 2
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lru/otus/bytecodes/OneOne;
+            0       6     1     x   I
+            0       6     2     y   I
+            2       4     3     r   Z
+}
