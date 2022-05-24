@@ -27,3 +27,5 @@ include 'le10-byte-code'
 include 'le11-functional'
 
 include 'le12-solid'
+
+include 'le13-behavioralPatterns'
