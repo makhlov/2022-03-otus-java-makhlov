@@ -23,6 +23,7 @@ include 'hw04-gc'
 include 'le09-docker'
 
 include 'le10-byte-code'
+include 'hw05-aop'
 
 include 'le11-functional'
 
