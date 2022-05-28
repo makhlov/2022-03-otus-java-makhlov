@@ -6,39 +6,70 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
+import static proxy.Arbiter.MethodSignature.methodToSignature;
 
 class Arbiter {
 
     private Arbiter() {}
 
-    static Calculator create() {
-        InvocationHandler handler = new LoggedMethodInvocationHandler(new CalculatorImpl());
+    record MethodSignature(String name, Class<?>[] params) {
+        static MethodSignature methodToSignature(Method m) {
+            return new MethodSignature(m.getName(), m.getParameterTypes());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            MethodSignature that = (MethodSignature) o;
+            return name.equals(that.name) && Arrays.toString(that.params).equals(Arrays.toString(this.params));
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(name);
+            result = 31 * result + Objects.hashCode(Arrays.toString(params));
+            return result;
+        }
+    }
+
+    static Calculator create(Calculator instanceToWrapping) {
+        InvocationHandler handler = new LoggedMethodInvocationHandler(instanceToWrapping);
         return (Calculator) Proxy.newProxyInstance(
-                CalculatorImpl.class.getClassLoader(),
-                CalculatorImpl.class.getInterfaces(),
+                instanceToWrapping.getClass().getClassLoader(),
+                instanceToWrapping.getClass().getInterfaces(),
                 handler
         );
     }
 
     static class LoggedMethodInvocationHandler implements InvocationHandler {
+        public static final String METHOD_LOG_SHAPE = "\nexecuted method: %s, param:%s";
         private final Calculator clazz;
+        private final Set<MethodSignature> annotatedMethods;
 
         LoggedMethodInvocationHandler(final Calculator clazz) {
             this.clazz = clazz;
+            this.annotatedMethods = getAnnotatedMethods(clazz);
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
-            if (isMarkedByAnnotation(this.clazz, method)) {
-                System.out.printf("\nexecuted method: %s, param:%s".formatted(method.getName(), Arrays.toString(args)));
+            if (annotatedMethods.contains(methodToSignature(method))) {
+                System.out.printf(METHOD_LOG_SHAPE.formatted(method.getName(), Arrays.toString(args)));
             }
             return method.invoke(clazz, args);
         }
 
-        private boolean isMarkedByAnnotation(Calculator clazz, Method method) throws NoSuchMethodException {
-            return clazz.getClass()
-                    .getMethod(method.getName(), method.getParameterTypes())
-                    .isAnnotationPresent(Log.class);
+        private static Set<MethodSignature> getAnnotatedMethods(Calculator clazz) {
+            return stream(clazz.getClass().getMethods())
+                    .filter(method -> method.isAnnotationPresent(Log.class))
+                    .map(MethodSignature::methodToSignature)
+                    .collect(Collectors.toSet());
         }
 
         @Override
