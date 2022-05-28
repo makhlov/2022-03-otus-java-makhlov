@@ -17,9 +17,12 @@ class Arbiter {
 
     private Arbiter() {}
 
-    record MethodSignature(String name, Class<?>[] params) {
+    record MethodSignature(String name, String[] params) {
         static MethodSignature methodToSignature(Method m) {
-            return new MethodSignature(m.getName(), m.getParameterTypes());
+            return new MethodSignature(
+                    m.getName(),
+                    stream(m.getParameterTypes()).map(Class::toString).toArray(String[]::new)
+            );
         }
 
         @Override
@@ -27,7 +30,7 @@ class Arbiter {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             MethodSignature that = (MethodSignature) o;
-            return name.equals(that.name) && Arrays.toString(that.params).equals(Arrays.toString(this.params));
+            return name.equals(that.name) && Arrays.equals(this.params, that.params);
         }
 
         @Override
