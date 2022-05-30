@@ -30,3 +30,5 @@ include 'le11-functional'
 include 'le12-solid'
 
 include 'le13-behavioralPatterns'
+
+include 'le14-creationalPatterns'
