@@ -32,3 +32,6 @@ include 'le12-solid'
 include 'le13-behavioralPatterns'
 
 include 'le14-creationalPatterns'
+
+include 'le15-structuralPatterns:demo'
+include 'le15-structuralPatterns:homework'
