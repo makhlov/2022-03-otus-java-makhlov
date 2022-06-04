@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties({"transientProperty"})
+@JsonIgnoreProperties({"transientProperty"}) //Аналог transient
 public class User {
     private int age;
 
@@ -14,6 +14,7 @@ public class User {
 
     private String transientProperty = "lostData";
 
+    //Мы можем выделить отдельный конструктор для Jackson
     @JsonCreator
     public User(@JsonProperty("age") int age, @JsonProperty("nameForSerialization") String name) {
         System.out.println("JsonCreator makes object...");

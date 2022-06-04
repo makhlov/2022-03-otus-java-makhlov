@@ -16,7 +16,11 @@ public class JavaxJsonDemo {
         readFromFile();
     }
 
+    //Пример ниже для ситуаций, когда мы не знаем точно структуру
+
+    //Создаем JSON
     private static JsonObject create() {
+        //Воспользуемся реализаций спецификации - вызовем ObjectBuilder
         var jsonObject = Json.createObjectBuilder()
                 .add("firstName", "Duke")
                 .add("age", 28)
@@ -32,7 +36,10 @@ public class JavaxJsonDemo {
         return jsonObject;
     }
 
+    //Получили JSON неизвестной структуры, но предполагаем, что там есть какие-то данные, которые нам нужны
     private static void navigateTree(JsonValue tree) {
+        //Мы делаем обход по дереву. Если у нас есть какие-то узлы, которые могут содержать другие объекты, то мы
+        //в них заходим, т.е. обходим дерево вглубь. Если узел не может ветвится, то мы выводим его в консоль
         switch (tree.getValueType()) {
             case OBJECT -> {
                 System.out.println("OBJECT");

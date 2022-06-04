@@ -15,8 +15,8 @@ public class JacksonDemo {
 
         var demo = new JacksonDemo();
         var fileName = "jack.json";
-        demo.save(fileName);
-        demo.loadUser(fileName);
+        demo.save(fileName);        //Можно сразу же сохранить файл
+        demo.loadUser(fileName);    //И сразу его прочитать
 
         var userAsString = demo.writeAsString();
         System.out.println("userAsString:" + userAsString);
@@ -24,6 +24,7 @@ public class JacksonDemo {
         var userFromString = demo.readFromString(userAsString);
         System.out.println("user from string:" + userFromString);
 
+        //Можно прочитать не всю структуру целиком, а конкретное поле
         var propertyValue = demo.readPropValue(userAsString, "nameForSerialization");
         System.out.println("propertyValue:" + propertyValue);
     }
@@ -46,7 +47,8 @@ public class JacksonDemo {
 
     private User readFromString(String userAsString) throws JsonProcessingException {
         return mapper.readValue(userAsString, User.class);
-
+        //Если хотим восстановить коллекцию: return mapper.readValue(userAsString, List<User>.class) - лезем в google
+        //И ищем как реализовать TypeReference<T> valueTypeRef
     }
 
     private String readPropValue(String userAsString, String nameForSerialization) throws JsonProcessingException {

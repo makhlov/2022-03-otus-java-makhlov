@@ -8,9 +8,11 @@ import java.io.ObjectOutputStream;
 
 public class DemoSerialization {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        //Сделаем сериализацию и десериализацию - передадим Person из одного метода в другой.
         deserialize(serialize());
     }
 
+    //Преобразуем Person в массив байт
     private static byte[] serialize() throws IOException {
         try (var byteArrayOutputStream = new ByteArrayOutputStream();
              var objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)
@@ -22,6 +24,7 @@ public class DemoSerialization {
         }
     }
 
+    //Передаем массив байт и на выходе получаем экземпляр класса Person
     private static void deserialize(byte[] data) throws IOException, ClassNotFoundException {
         try (var objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data))) {
             var person = (Person) objectInputStream.readObject();
