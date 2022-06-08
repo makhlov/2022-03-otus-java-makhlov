@@ -22,11 +22,14 @@ public class FilesExample {
         Files.createDirectory(Paths.get("L17-nio-logging/tmp"));
 
         //с файлами в ресурсах надо работать как с ресурсами
+        //Подход работы через Path с ресурсами неправильный
         var uri = ClassLoader.getSystemResource("share.xml").toURI();
 
         var source = Paths.get(uri);
         var destination = Paths.get("L17-nio-logging/tmp/share.xml");
 
+        //copy работает всегда, не работает только в случае расположения источника и destination на разных
+        //файловых системах. Тогда надо использовать старый IO
         Files.copy(source, destination);
 
         var size = Files.size(path);
