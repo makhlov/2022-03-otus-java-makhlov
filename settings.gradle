@@ -28,6 +28,7 @@ include 'hw05-aop'
 include 'le11-functional'
 
 include 'le12-solid'
+include 'hw06-solid'
 
 include 'le13-behavioralPatterns'
 
