@@ -6,16 +6,15 @@ import ru.otus.atm.money.Banknote;
 import ru.otus.atm.money.Currency;
 import ru.otus.atm.mechanism.cell.Cell;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ClusterManagerCellBanknote implements ClusterManager<Banknote> {
+public class ClusterManagerImpl implements ClusterManager<Banknote> {
     private final Currency clusterCurrency;
-    private final Map<BigInteger, Cell<Banknote>> cellHolder;
+    private final Map<Integer, Cell<Banknote>> cellHolder;
 
-    public ClusterManagerCellBanknote(Currency clusterCurrency, Map<BigInteger, Cell<Banknote>> cellHolder) {
+    public ClusterManagerImpl(Currency clusterCurrency, Map<Integer, Cell<Banknote>> cellHolder) {
         this.clusterCurrency = clusterCurrency;
         this.cellHolder = cellHolder;
     }
@@ -23,7 +22,7 @@ public class ClusterManagerCellBanknote implements ClusterManager<Banknote> {
     @Override
     public void putBanknote(List<Banknote> banknotes) throws ClusterOperationException {
         for (var banknote : banknotes) {
-            Cell<Banknote> cell = cellHolder.get(banknote.getDenomination());
+            Cell<Banknote> cell = cellHolder.get(banknote.denomination());
             try {
                 cell.insertBanknote(banknote);
             } catch (CellOperationException exception) {
@@ -36,7 +35,7 @@ public class ClusterManagerCellBanknote implements ClusterManager<Banknote> {
     }
 
     @Override
-    public List<Banknote> requestBanknote(BigInteger nominal, int amount) throws ClusterOperationException {
+    public List<Banknote> requestBanknote(Integer nominal, int amount) throws ClusterOperationException {
         List<Banknote> result = new ArrayList<>();
         Cell<Banknote> banknoteCell = cellHolder.get(nominal);
         try {
@@ -53,18 +52,16 @@ public class ClusterManagerCellBanknote implements ClusterManager<Banknote> {
     }
 
     @Override
-    public int getBanknoteAmountFromCell(BigInteger denomination) {
+    public int getBanknoteAmountFromCell(Integer denomination) {
         return cellHolder.get(denomination).getBanknotesAmount();
     }
 
     @Override
-    public BigInteger getTotalSumFromCluster() {
-        BigInteger result = new BigInteger("0");
+    public Integer getTotalSumFromCluster() {
+        int result = 0;
         List<Cell<Banknote>> clustersCells = new ArrayList<>(cellHolder.values());
         for (var cell : clustersCells) {
-            result = result
-                        .add(new BigInteger(String.valueOf(cell.getBanknotesAmount()))
-                        .multiply(cell.getDenomination()));
+            result += cell.getBanknotesAmount() * cell.getDenomination();
         }
         return result;
     }

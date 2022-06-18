@@ -5,11 +5,9 @@ import ru.otus.atm.mechanism.cell.CellBanknote;
 import ru.otus.atm.money.Banknote;
 import ru.otus.atm.money.Currency;
 
-import java.math.BigInteger;
-
 public class CellBanknoteCreator extends CellCreator<Banknote> {
     @Override
-    public Cell<Banknote> create(BigInteger denomination, Currency currency) {
+    public Cell<Banknote> create(Integer denomination, Currency currency) {
         return new CellBanknote(denomination, currency, DEFAULT_CELL_SIZE);
     }
 }

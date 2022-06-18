@@ -1,8 +1,12 @@
 package ru.otus.atm.money;
 
-import java.math.BigInteger;
+import static java.util.Objects.requireNonNull;
 
-public interface Banknote {
-    BigInteger getDenomination();
-    Currency getCurrency();
+public record Banknote(Integer denomination, Currency currency) {
+    public Banknote {
+        requireNonNull(currency);
+        requireNonNull(denomination);
+        if (!currency.getAcceptableDenominations().contains(denomination))
+            throw new IllegalArgumentException();
+    }
 }

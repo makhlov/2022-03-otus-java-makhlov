@@ -6,7 +6,6 @@ import ru.otus.atm.mechanism.cluster.exception.ClusterOperationException;
 import ru.otus.atm.money.Banknote;
 import ru.otus.atm.money.Currency;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,7 +22,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class AtmDefault implements Atm {
     private final HashMap<Currency, ClusterManager<Banknote>> atmCurrencyClusters;
 
-    private record RequestedBanknote(BigInteger denomination, int count) { }
+    private record RequestedBanknote(Integer denomination, int count) { }
 
     public AtmDefault(HashMap<Currency, ClusterManager<Banknote>> atmCurrencyClusters) {
         this.atmCurrencyClusters = atmCurrencyClusters;
@@ -31,7 +30,7 @@ public class AtmDefault implements Atm {
 
     @Override
     public List<Banknote> requestMoney(Currency currency, String amount) throws AtmInteractionException {
-        List<BigInteger> denominations = splitRequestedIntoBanknotes(currency, amount);
+        List<Integer> denominations = splitRequestedIntoBanknotes(currency, amount);
         List<RequestedBanknote> requestedBanknoteByCount = groupBanknotes(denominations);
 
         var cluster = atmCurrencyClusters.get(currency);
@@ -59,8 +58,8 @@ public class AtmDefault implements Atm {
         return cluster.getBanknoteAmountFromCell(banknoteRecord.denomination) >= banknoteRecord.count;
     }
 
-    private static List<RequestedBanknote> groupBanknotes(List<BigInteger> banknotes) {
-        Map<BigInteger, Long> frequencyMap = banknotes.stream()
+    private static List<RequestedBanknote> groupBanknotes(List<Integer> banknotes) {
+        Map<Integer, Long> frequencyMap = banknotes.stream()
                 .collect(groupingBy(Function.identity(),
                         counting()));
 
@@ -71,46 +70,47 @@ public class AtmDefault implements Atm {
         return result;
     }
 
-    private static List<BigInteger> splitRequestedIntoBanknotes(Currency currency, String amount) {
-        List<BigInteger> requested = new LinkedList<>();
-        BigInteger amountB = new BigInteger(amount);
-        while (amountB.compareTo(BigInteger.ZERO) > 0) {
-            BigInteger nearest = findNearest(currency, amountB);
+    private static List<Integer> splitRequestedIntoBanknotes(Currency currency, String amount) {
+        List<Integer> requested = new LinkedList<>();
+        int amountB = Integer.parseInt(amount);
+        while (amountB > 0) {
+            Integer nearest = findNearest(currency, amountB);
             requested.add(nearest);
-            amountB = amountB.subtract(nearest);
+            amountB = amountB - nearest;
         }
         return requested;
     }
 
-    private static BigInteger findNearest(Currency currency, BigInteger digitNumber) {
-        NavigableSet<BigInteger> set = new TreeSet<>(currency.getAcceptableDenominations());
+    private static Integer findNearest(Currency currency, Integer digitNumber) {
+        NavigableSet<Integer> set = new TreeSet<>(currency.getAcceptableDenominations());
         return set.floor(digitNumber);
     }
 
     @Override
     public void insertMoney(List<Banknote> banknotes) {
         if (oneCurrencyCheck(banknotes)) {
-            ClusterManager<Banknote> banknoteClusterManager = atmCurrencyClusters.get(banknotes.get(0).getCurrency());
+            ClusterManager<Banknote> banknoteClusterManager = atmCurrencyClusters.get(banknotes.get(0).currency());
             try {
                 banknoteClusterManager.putBanknote(banknotes);
             } catch (ClusterOperationException e) {
-                System.out.println(e.getMessage());
+                throw new RuntimeException(e.getMessage());
             }
         } else {
-            System.out.println("Banknotes of different denominations!");
+            throw new IllegalArgumentException("Banknotes of different denominations!");
         }
     }
 
     private boolean oneCurrencyCheck(List<Banknote> banknotes) {
-        Currency currency = banknotes.get(0).getCurrency();
+        if (banknotes == null || banknotes.size() == 0) return false;
+        Currency currency = banknotes.get(0).currency();
         for (var banknote : banknotes) {
-            if (banknote.getCurrency() != currency) return false;
+            if (banknote.currency() != currency) return false;
         }
         return true;
     }
 
     @Override
-    public BigInteger getBalanceForCurrency(Currency currency) {
+    public Integer getBalanceForCurrency(Currency currency) {
         return atmCurrencyClusters.get(currency).getTotalSumFromCluster();
     }
 }

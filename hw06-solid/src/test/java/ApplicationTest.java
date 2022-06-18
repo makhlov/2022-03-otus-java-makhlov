@@ -6,10 +6,7 @@ import ru.otus.atm.interaction.factory.AtmCreator;
 import ru.otus.atm.interaction.factory.AtmCreatorDefault;
 import ru.otus.atm.money.Banknote;
 import ru.otus.atm.money.Currency;
-import ru.otus.atm.money.factory.BanknoteCreator;
-import ru.otus.atm.money.factory.BanknotePaperCreator;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +16,6 @@ import static ru.otus.atm.money.Currency.EUR;
 import static ru.otus.atm.money.Currency.RUB;
 
 class ApplicationTest {
-    private BanknoteCreator bc;
     private Atm atm;
 
     @BeforeEach
@@ -29,7 +25,6 @@ class ApplicationTest {
             add(EUR);
         }};
 
-        bc = new BanknotePaperCreator();
         AtmCreator atmCreator = new AtmCreatorDefault(currencies);
         atm = atmCreator.create();
     }
@@ -37,32 +32,31 @@ class ApplicationTest {
     @Test
     void insertBanknotes() {
         atm.insertMoney(List.of(
-                bc.create(RUB, "1000"),
-                bc.create(RUB, "500"),
-                bc.create(RUB, "500"),
-                bc.create(RUB, "500"),
-                bc.create(RUB, "100"),
-                bc.create(RUB, "100")
+                new Banknote(1000, RUB),
+                new Banknote(500, RUB),
+                new Banknote(500, RUB),
+                new Banknote(100, RUB),
+                new Banknote(100, RUB)
         ));
-        assertEquals(0, atm.getBalanceForCurrency(RUB).compareTo(new BigInteger("2700")));
+        assertEquals(2200, atm.getBalanceForCurrency(RUB));
     }
 
     @Test
     void requestMoney() throws AtmInteractionException {
         atm.insertMoney(List.of(
-                bc.create(RUB, "1000"),
-                bc.create(RUB, "500"),
-                bc.create(RUB, "500"),
-                bc.create(RUB, "500"),
-                bc.create(RUB, "100"),
-                bc.create(RUB, "100"),
-                bc.create(RUB, "100"),
-                bc.create(RUB, "100")
+                new Banknote(1000, RUB),
+                new Banknote(500, RUB),
+                new Banknote(500, RUB),
+                new Banknote(500, RUB),
+                new Banknote(100, RUB),
+                new Banknote(100, RUB),
+                new Banknote(100, RUB),
+                new Banknote(100, RUB)
         ));
 
         var expected = List.of(
-                bc.create(RUB, "100"),
-                bc.create(RUB, "500")
+                new Banknote(100, RUB),
+                new Banknote(500, RUB)
         );
 
         List<Banknote> banknotes = atm.requestMoney(RUB, "600");

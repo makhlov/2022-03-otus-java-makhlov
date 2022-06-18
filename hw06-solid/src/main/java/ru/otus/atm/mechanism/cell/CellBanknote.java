@@ -4,19 +4,20 @@ import ru.otus.atm.money.Banknote;
 import ru.otus.atm.mechanism.cell.exception.CellOperationException;
 import ru.otus.atm.money.Currency;
 
-import java.math.BigInteger;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class CellBanknote implements Cell<Banknote> {
-    private final Stack<Banknote> banknotes;
-    private final BigInteger denomination;
+
+    private final Deque<Banknote> banknotes;
+    private final Integer denomination;
     private final Currency currency;
     private final int cellSize;
 
-    public CellBanknote(BigInteger denomination, Currency currency, final int cellSize) {
+    public CellBanknote(Integer denomination, Currency currency, final int cellSize) {
         this.denomination = denomination;
         this.currency = currency;
-        this.banknotes = new Stack<>();
+        this.banknotes = new ArrayDeque<>();
         this.cellSize = cellSize;
     }
 
@@ -42,8 +43,8 @@ public class CellBanknote implements Cell<Banknote> {
     }
 
     private boolean checkInconsistency(Banknote banknote) {
-        return this.currency != banknote.getCurrency() ||
-               this.denomination.compareTo(banknote.getDenomination()) != 0;
+        return this.currency != banknote.currency() ||
+               this.denomination.compareTo(banknote.denomination()) != 0;
     }
 
     @Override
@@ -52,8 +53,8 @@ public class CellBanknote implements Cell<Banknote> {
     }
 
     @Override
-    public BigInteger getDenomination() {
-        if (getBanknotesAmount() == 0) return new BigInteger("0");
-        return banknotes.peek().getDenomination();
+    public Integer getDenomination() {
+        if (getBanknotesAmount() == 0) return 0;
+        return banknotes.peek().denomination();
     }
 }
