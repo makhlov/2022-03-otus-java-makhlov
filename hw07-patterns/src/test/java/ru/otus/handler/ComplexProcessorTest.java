@@ -8,7 +8,7 @@ import ru.otus.listener.Listener;
 import ru.otus.processor.Processor;
 import ru.otus.processor.exception.EvenSecondException;
 import ru.otus.processor.processors.ProcessorExceptionEvenSecondThrower;
-import ru.otus.processor.processors.time.EvenSecondsHelper;
+import ru.otus.processor.processors.time.EvenSecondsChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,14 +106,14 @@ class ComplexProcessorTest {
     @DisplayName("Тестируем выбрасывание exception только по четным секундам")
     void evenSecondsExceptionProcessorTest() {
         var message = new Message.Builder(1L).field9("field9").build();
-        var alwaysEven = new ProcessorExceptionEvenSecondThrower(new EvenSecondsHelper() {
+        var alwaysEven = new ProcessorExceptionEvenSecondThrower(new EvenSecondsChecker() {
             @Override
             public boolean currentSecondIsEven() {
                 return true;
             }
         });
 
-        var alwaysOdd = new ProcessorExceptionEvenSecondThrower(new EvenSecondsHelper() {
+        var alwaysOdd = new ProcessorExceptionEvenSecondThrower(new EvenSecondsChecker() {
             @Override
             public boolean currentSecondIsEven() {
                 return false;

@@ -238,7 +238,7 @@ public class Message implements Cloneable {
             return this;
         }
 
-        public Builder field11(String field10) {
+        public Builder field11(String field11) {
             this.field11 = field11;
             return this;
         }
