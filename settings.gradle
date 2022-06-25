@@ -43,10 +43,12 @@ include 'le16-io-streams:homework'
 
 include 'le17-nio-loggining'
 
-include 'le18-jdbc'
+include 'le18-jdbc:demo'
+include 'le18-jdbc:homework'
 
 include 'le19-rdbms'
 
 include 'le20-hibernate'
 
-include 'le21-jpql'
+include 'le21-jpql:class-demo'
+include 'le21-jpql:homework-template'
