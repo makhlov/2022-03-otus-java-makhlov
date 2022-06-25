@@ -48,3 +48,5 @@ include 'le18-jdbc'
 include 'le19-rdbms'
 
 include 'le20-hibernate'
+
+include 'le21-jpql'
