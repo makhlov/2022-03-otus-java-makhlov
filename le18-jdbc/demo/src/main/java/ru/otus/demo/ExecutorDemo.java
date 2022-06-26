@@ -20,6 +20,7 @@ public class ExecutorDemo {
     private static final Logger log = LoggerFactory.getLogger(ExecutorDemo.class);
 
     public static void main(String[] args) throws SQLException {
+        //Делаем имплементацию DataSource
         var dataSource = new DriverManagerDataSource(URL, USER, PASSWORD);
         flywayMigrations(dataSource);
 

@@ -65,6 +65,8 @@ public class DriverManagerDataSource implements DataSource {
     private void createConnectionPool(String url, String user, String pwd) {
         var config = new HikariConfig();
         config.setJdbcUrl(url);
+        //Выставленные значения зависят от контекста, надо подбирать, либо спросить у dba какое максимальное время жизни
+        //сессии к БД проставлено и проставить значения меньше.
         config.setConnectionTimeout(3000); //ms
         config.setIdleTimeout(60000); //ms
         config.setMaxLifetime(600000);//ms
