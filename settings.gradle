@@ -40,6 +40,7 @@ include 'hw07-patterns'
 
 include 'le16-io-streams:demo'
 include 'le16-io-streams:homework'
+include 'hw08-serialization'
 
 include 'le17-nio-loggining'
 
