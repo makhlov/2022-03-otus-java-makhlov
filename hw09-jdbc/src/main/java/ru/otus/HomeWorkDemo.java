@@ -36,7 +36,7 @@ public class HomeWorkDemo {
 
 // Работа с клиентом
         EntityClassMetaData<Client> entityClassMetaDataClient = new EntityClassMetaDataImpl<>(Client.class);
-        EntitySQLMetaData entitySQLMetaDataClient = new EntitySQLMetaDataImpl(entityClassMetaDataClient);
+        EntitySQLMetaData entitySQLMetaDataClient = new EntitySQLMetaDataImpl<Client>(entityClassMetaDataClient);
         var dataTemplateClient = new DataTemplateJdbc<Client>(dbExecutor, entitySQLMetaDataClient, entityClassMetaDataClient);
 
 // Код дальше должен остаться

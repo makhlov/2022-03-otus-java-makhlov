@@ -45,7 +45,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
     }
 
     private T mapToObject(ResultSet rs) throws SQLException {
-        List entityFields = new ArrayList<>();
+        List<Object> entityFields = new ArrayList<>();
 
         /* Получаем ID сущности из RS */
         long idValue = rs.getLong(entityClassMetaData.getIdField().getName());

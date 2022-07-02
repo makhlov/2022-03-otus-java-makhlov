@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
@@ -31,7 +33,18 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     private void defineFields(final Class<T> entityClass) {
         nonIdFields = new ArrayList<>();
-        stream(entityClass.getDeclaredFields()).forEach(
+        Field[] declaredFields = entityClass.getDeclaredFields();
+
+        idMarkedField = stream(declaredFields)
+                            .filter(f -> f.isAnnotationPresent(Id.class))
+                            .findAny().orElseThrow(() -> new RuntimeException("d"));
+
+        nonIdFields = stream(declaredFields)
+                            .filter(f -> !f.isAnnotationPresent(Id.class))
+                            .collect(Collectors.toList());
+
+        //Вот так делать не стоит:
+        /*stream(entityClass.getDeclaredFields()).forEach(
                 f -> {
                     if (f.isAnnotationPresent(Id.class)) {
                         idMarkedField = f;
@@ -40,7 +53,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
                         nonIdFields.add(f);
                     }
                 }
-        );
+        );*/
     }
 
     private void defineClassConstructor(final Class<T> entityClass) {
