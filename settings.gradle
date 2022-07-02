@@ -46,6 +46,7 @@ include 'le17-nio-loggining'
 
 include 'le18-jdbc:demo'
 include 'le18-jdbc:homework'
+include 'hw09-jdbc'
 
 include 'le19-rdbms'
 
