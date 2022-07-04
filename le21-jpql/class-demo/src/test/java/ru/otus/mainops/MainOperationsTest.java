@@ -30,23 +30,35 @@ class MainOperationsTest {
     @DisplayName("persist не вставляет сущность в БД без транзакции")
     @Test
     public void shouldNeverPersistEntityToDBWhenTransactionDoesNotExists() {
+        /* Студент попал в context, но не попал в БД.
+         * Почему? Потому что любые изменения в БД должны выполнятся в транзакции, а она тут не создается
+         * Сессия закрылась, контекст закрылся, в базу ничего не пролезло
+         */
         doInSession(sf, session -> session.persist(student));
 
         assertThat(sf.getStatistics().getPrepareStatementCount()).isEqualTo(0);
     }
 
+    //А вот тут уже пролезет, т.к. есть транзакция
     @DisplayName("persist вставляет сущность и ее связь в БД при наличии транзакции")
     @Test
     public void shouldNeverEntityWithRelationToDBWhenTransactionExists() {
         doInSessionWithTransaction(sf, session -> session.persist(student));
 
+        /*
+            Также мы ожидаем, что будет два запроса:
+            1. Сохранение студента
+            2. Сохранение аватара
+         */
         assertThat(sf.getStatistics().getPrepareStatementCount()).isEqualTo(2);
     }
 
     @DisplayName("выкидывает исключение если вставляемая сущность в состоянии detached")
     @Test
     public void shouldThrowExceptionWhenPersistDetachedEntity() {
+        //Такого аватара в БД нет и мы дали ему id, а id должно генерится на основе чего-то
         var avatar = new Avatar(1L, "http://any-addr.ru/");
+
         assertThatCode(() ->
                 doInSessionWithTransaction(sf, session -> session.persist(avatar))
         ).hasCauseInstanceOf(PersistentObjectException.class);
@@ -57,6 +69,11 @@ class MainOperationsTest {
             "содержит дочернюю в состоянии transient при выключенной каскадной операции PERSIST")
     @Test
     public void shouldThrowExceptionWhenPersistEntityWithChildInTransientStateAndDisabledCascadeOperation() {
+        //У Teacher отключены каскадные операции для аватара
+        //Тут вылетает TransientObjectException: аватар не сохранен в БД
+        // Пробуем сохранить teacher, у него внутри ссылка на avatar, значит надо прописать id аватара
+        //Но аватар еще не сохранен в БД, поэтому мы не можем получить id
+        //Можно было бы его сохранить при каскадных операциях, но они отключены
         var teacher = new OtusTeacher(0, "AnyName", avatar);
         assertThatCode(() ->
                 doInSessionWithTransaction(sf, session -> session.persist(teacher))
@@ -71,17 +88,20 @@ class MainOperationsTest {
         var newName = "NameAny";
 
         doInSessionWithTransaction(sf, session -> {
-            session.persist(student);
+            session.persist(student); //кладем в контекст
 
-            // Отключаем dirty checking (одно из двух)
+            // Как сломать: отключаем dirty checking (одно из двух)
             // session.setHibernateFlushMode(FlushMode.MANUAL);
             // session.detach(student);
 
-            student.setName(newName);
+            student.setName(newName); //Просто меняем name
         });
 
+        //Проверяем, что произошел как минимум 1 upd
         assertThat(sf.getStatistics().getEntityUpdateCount()).isEqualTo(1);
 
+        //Проверяем, что сменилось имя, не смотря на то, что мы ничего не фиксировали и не говорили
+        //что надо что-то update'ить
         doInSessionWithTransaction(sf, session -> {
             var actualStudent = session.find(OtusStudent.class, student.getId());
             assertThat(actualStudent.getName()).isEqualTo(newName);
@@ -131,7 +151,12 @@ class MainOperationsTest {
 
         try (var session = sf.openSession()) {
             var actualStudent = session.find(OtusStudent.class, 1L);
+            assertThat(sf.getStatistics().getEntityLoadCount()).isEqualTo(1);
+
+            sf.getStatistics().clear();
+
             assertThat(actualStudent.getAvatar()).isNotNull().isEqualTo(avatar);
+            assertThat(sf.getStatistics().getEntityLoadCount()).isEqualTo(1);
         }
     }
 }
