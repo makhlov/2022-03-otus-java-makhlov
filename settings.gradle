@@ -54,6 +54,7 @@ include 'le20-hibernate'
 
 include 'le21-jpql:class-demo'
 include 'le21-jpql:homework-template'
+include 'hw10-jpql'
 
 include 'le22-cache'
 include 'hw11-cache'
