@@ -63,3 +63,5 @@ include 'le23-noSQL:mongo-db-reactive-demo'
 include 'le23-noSQL:neo4j-demo'
 include 'le23-noSQL:redis-demo'
 include 'le23-noSQL:cassandra-demo'
+
+include 'le24-webserver'
