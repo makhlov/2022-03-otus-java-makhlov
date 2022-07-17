@@ -1,34 +1,39 @@
 package ru.otus.demo;
 
-import org.flywaydb.core.Flyway;
+import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.repository.executor.DbExecutorImpl;
-import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
-import ru.otus.crm.datasource.DriverManagerDataSource;
+import ru.otus.core.repository.DataTemplateHibernate;
+import ru.otus.core.repository.HibernateUtils;
+import ru.otus.core.sessionmanager.TransactionManagerHibernate;
+import ru.otus.crm.dbmigrations.MigrationsExecutorFlyway;
+import ru.otus.crm.model.Address;
 import ru.otus.crm.model.Client;
-import ru.otus.crm.repository.ClientDataTemplateJdbc;
+import ru.otus.crm.model.Phone;
 import ru.otus.crm.service.DbServiceClientImpl;
 
-import javax.sql.DataSource;
-
 public class DbServiceDemo {
-    private static final String URL = "jdbc:postgresql://localhost:5430/demoDB";
-    private static final String USER = "usr";
-    private static final String PASSWORD = "pwd";
 
     private static final Logger log = LoggerFactory.getLogger(DbServiceDemo.class);
 
-    public static void main(String[] args) {
-        var dataSource = new DriverManagerDataSource(URL, USER, PASSWORD);
-        flywayMigrations(dataSource);
-        var transactionRunner = new TransactionRunnerJdbc(dataSource);
-        var dbExecutor = new DbExecutorImpl();
-///
-        var clientTemplate = new ClientDataTemplateJdbc(dbExecutor); //реализация DataTemplate, заточена на Client
+    public static final String HIBERNATE_CFG_FILE = "hibernate.cfg.xml";
 
+    public static void main(String[] args) {
+        var configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
+
+        var dbUrl = configuration.getProperty("hibernate.connection.url");
+        var dbUserName = configuration.getProperty("hibernate.connection.username");
+        var dbPassword = configuration.getProperty("hibernate.connection.password");
+
+        new MigrationsExecutorFlyway(dbUrl, dbUserName, dbPassword).executeMigrations();
+
+        var sessionFactory = HibernateUtils.buildSessionFactory(configuration, Client.class, Address.class, Phone.class);
+
+        var transactionManager = new TransactionManagerHibernate(sessionFactory);
 ///
-        var dbServiceClient = new DbServiceClientImpl(transactionRunner, clientTemplate);
+        var clientTemplate = new DataTemplateHibernate<>(Client.class);
+///
+        var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
         dbServiceClient.saveClient(new Client("dbServiceFirst"));
 
         var clientSecond = dbServiceClient.saveClient(new Client("dbServiceSecond"));
@@ -43,16 +48,5 @@ public class DbServiceDemo {
 
         log.info("All clients");
         dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
-    }
-
-    private static void flywayMigrations(DataSource dataSource) {
-        log.info("db migration started...");
-        var flyway = Flyway.configure()
-                .dataSource(dataSource)
-                .locations("classpath:/db/migration")
-                .load();
-        flyway.migrate();
-        log.info("db migration finished.");
-        log.info("***");
     }
 }
