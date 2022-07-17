@@ -1,4 +1,4 @@
-package ru.otus.services;
+package ru.otus.service;
 
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.RolePrincipal;

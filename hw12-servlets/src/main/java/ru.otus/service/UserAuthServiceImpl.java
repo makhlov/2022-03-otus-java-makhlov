@@ -1,4 +1,4 @@
-package ru.otus.services;
+package ru.otus.service;
 
 import ru.otus.dao.UserDao;
 

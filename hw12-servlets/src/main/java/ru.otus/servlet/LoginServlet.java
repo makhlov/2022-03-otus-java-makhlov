@@ -5,8 +5,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ru.otus.services.TemplateProcessor;
-import ru.otus.services.UserAuthService;
+import ru.otus.service.TemplateProcessor;
+import ru.otus.service.UserAuthService;
 
 import java.io.IOException;
 import java.util.Collections;
