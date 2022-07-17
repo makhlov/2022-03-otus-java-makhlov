@@ -57,6 +57,7 @@ include 'le21-jpql:homework-template'
 include 'hw10-jpql'
 
 include 'le22-cache'
+include 'hw11-cache'
 
 include 'le23-noSQL:mongo-db-demo'
 include 'le23-noSQL:mongo-db-reactive-demo'
