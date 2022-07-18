@@ -15,4 +15,4 @@ create table client
 (
     id   bigint not null primary key,
     name varchar(50)
-);
+)
