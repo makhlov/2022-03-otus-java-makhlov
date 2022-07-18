@@ -66,3 +66,4 @@ include 'le23-noSQL:redis-demo'
 include 'le23-noSQL:cassandra-demo'
 
 include 'le24-webserver'
+include 'hw12-servlets'
