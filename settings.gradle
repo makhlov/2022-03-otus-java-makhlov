@@ -67,3 +67,6 @@ include 'le23-noSQL:cassandra-demo'
 
 include 'le24-webserver'
 include 'hw12-servlets'
+
+include 'le25-di:class-demo'
+include 'le25-di:homework-template'
