@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class ClientMappingHelper {
-    public Map mapToTemplateData(Client client) {
+    public Map<String, Object> mapToTemplateData(Client client) {
         if (isNull(client)) {
             return null;
         } else {
