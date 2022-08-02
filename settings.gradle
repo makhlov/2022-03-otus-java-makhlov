@@ -70,3 +70,4 @@ include 'hw12-servlets'
 
 include 'le25-di:class-demo'
 include 'le25-di:homework-template'
+include 'hw13-di'
