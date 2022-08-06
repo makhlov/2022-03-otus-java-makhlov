@@ -73,3 +73,8 @@ include 'le25-di:homework-template'
 include 'hw13-di'
 
 include 'le26-springmvc'
+
+include 'le27-websocket:application'
+include 'le27-websocket:messager'
+include 'le27-websocket:messager-starter'
+include 'le27-websocket:websocket'
