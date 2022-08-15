@@ -78,3 +78,5 @@ include 'le27-websocket:application'
 include 'le27-websocket:messager'
 include 'le27-websocket:messager-starter'
 include 'le27-websocket:websocket'
+
+include 'le28-spring-data-jdbc'
