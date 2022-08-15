@@ -7,8 +7,10 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
+/* Лепим аннотацию @EnableWebSocketMessageBroker и за нас SpringBoot все сделает */
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+/* Осталось определить endpoint и топики*/
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
