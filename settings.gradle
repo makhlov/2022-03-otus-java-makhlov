@@ -80,3 +80,4 @@ include 'le27-websocket:messager-starter'
 include 'le27-websocket:websocket'
 
 include 'le28-spring-data-jdbc'
+include 'hw14-spring-boot-crud'
