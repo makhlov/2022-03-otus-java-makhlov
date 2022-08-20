@@ -81,3 +81,5 @@ include 'le27-websocket:websocket'
 
 include 'le28-spring-data-jdbc'
 include 'hw14-spring-boot-crud'
+
+include 'le29-threads'
