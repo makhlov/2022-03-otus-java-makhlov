@@ -85,3 +85,5 @@ include 'hw14-spring-boot-crud'
 include 'le29-threads'
 
 include 'le30-jmm'
+
+include 'le31-executors'
