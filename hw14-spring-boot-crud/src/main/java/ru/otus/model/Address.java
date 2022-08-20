@@ -9,9 +9,9 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Address {
 
     @Id
-    private Long clientId;
+    private final Long clientId;
 
-    private String street;
+    private final String street;
 
     @PersistenceCreator
     public Address(Long clientId, String street) {

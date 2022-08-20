@@ -8,9 +8,9 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Phone {
 
     @Id
-    private Long clientId;
+    private final Long clientId;
 
-    private String number;
+    private final String number;
 
     public Phone(String number) {
         this(null, number);
