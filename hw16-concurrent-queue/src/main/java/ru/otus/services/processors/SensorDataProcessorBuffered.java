@@ -7,6 +7,7 @@ import ru.otus.api.SensorDataProcessor;
 import ru.otus.api.model.SensorData;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import static java.util.Comparator.comparing;
@@ -33,7 +34,7 @@ public class SensorDataProcessorBuffered implements SensorDataProcessor {
     }
 
     public void flush() {
-        ArrayList<SensorData> bufferedData = new ArrayList<>();
+        List<SensorData> bufferedData = new ArrayList<>();
         try {
             dataBuffer.drainTo(bufferedData, bufferSize);
             if (!bufferedData.isEmpty()) {
