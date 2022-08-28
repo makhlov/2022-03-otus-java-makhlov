@@ -91,3 +91,4 @@ include 'hw15-sequence-of-numbers'
 
 include 'le32-concurrent-containers:concurrent-collections'
 include 'le32-concurrent-containers:queue-demo'
+include 'hw16-concurrent-queue'
