@@ -102,3 +102,5 @@ include 'hw17-grpc'
 include 'le34-rabbit-mq:allServicesModels'
 include 'le34-rabbit-mq:approvalService'
 include 'le34-rabbit-mq:mainService'
+
+include 'le35-nio'
