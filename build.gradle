@@ -48,14 +48,14 @@ allprojects {
             dependency("io.grpc:grpc-netty:${Versions.grpc}")
             dependency("io.grpc:grpc-protobuf:${Versions.grpc}")
             dependency("io.grpc:grpc-stub:${Versions.grpc}")
+
         }
     }
 
     configurations.all {
         resolutionStrategy {
             failOnVersionConflict()
-        }
-        resolutionStrategy {
+
             force("javax.servlet:servlet-api:2.4")
             force("commons-logging:commons-logging:1.1.1")
             force("commons-lang:commons-lang:2.5")
@@ -64,6 +64,7 @@ allprojects {
             force("org.codehaus.jettison:jettison:1.1")
             force("net.java.dev.jna:jna:5.8.0")
             force("com.google.errorprone:error_prone_annotations:2.7.1")
+            force("org.ow2.asm:asm:9.3")
         }
     }
 }

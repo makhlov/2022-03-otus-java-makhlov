@@ -104,3 +104,5 @@ include 'le34-rabbit-mq:approvalService'
 include 'le34-rabbit-mq:mainService'
 
 include 'le35-nio'
+
+include 'le36-netty'
