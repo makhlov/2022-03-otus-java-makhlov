@@ -98,3 +98,7 @@ include 'le33-multiprocess:processes-demo'
 include 'le33-multiprocess:rmi-demo'
 include 'le33-multiprocess:sockets-demo'
 include 'hw17-grpc'
+
+include 'le34-rabbit-mq:allServicesModels'
+include 'le34-rabbit-mq:approvalService'
+include 'le34-rabbit-mq:mainService'
