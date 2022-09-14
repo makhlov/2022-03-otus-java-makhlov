@@ -110,6 +110,7 @@ include 'le36-netty'
 include 'le37-webflux:source'
 include 'le37-webflux:processor'
 include 'le37-webflux:client'
-
 include 'le37-webflux-chat:client-service'
 include 'le37-webflux-chat:datastore-service'
+include 'hw18-webflux:client-service'
+include 'hw18-webflux:datastore-service'
