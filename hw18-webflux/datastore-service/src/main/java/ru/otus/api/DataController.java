@@ -35,7 +35,7 @@ public class DataController {
 
         var msgId = Mono.just(new Message(roomId, messageStr))
                 .doOnNext(msg -> log.info("msg saving:{}", msg))
-                .flatMap(dataStore::saveMessage)
+                .flatMap(msg -> dataStore.saveMessage(msg, roomId))
                 .publishOn(workerPool)
                 .doOnNext(msgSaved -> log.info("msgSaved id:{}", msgSaved.getId()))
                 .map(Message::getId)
@@ -56,4 +56,15 @@ public class DataController {
                 .doOnNext(msgDto -> log.info("msgDto:{}", msgDto))
                 .subscribeOn(workerPool);
     }
+
+    @GetMapping(value = "/msg", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    public Flux<MessageDto> getAllMessages() {
+        log.info("getAllMessages");
+        return dataStore.getAllMessages()
+                .publishOn(workerPool)
+                .map(message -> new MessageDto(message.getMsgText()))
+                .doOnNext(msgDto -> log.info("msgDto:{}", msgDto))
+                .subscribeOn(workerPool);
+    }
+
 }

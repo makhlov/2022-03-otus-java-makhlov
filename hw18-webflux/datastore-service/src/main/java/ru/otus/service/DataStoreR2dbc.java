@@ -24,7 +24,7 @@ public class DataStoreR2dbc implements DataStore {
     }
 
     @Override
-    public Mono<Message> saveMessage(Message message) {
+    public Mono<Message> saveMessage(Message message, String roomId) {
         log.info("saveMessage:{}", message);
         return messageRepository.save(message);
     }
@@ -35,4 +35,10 @@ public class DataStoreR2dbc implements DataStore {
         return messageRepository.findByRoomId(roomId)
                 .delayElements(Duration.of(3, SECONDS), workerPool);
     }
+
+    @Override
+    public Flux<Message> getAllMessages() {
+        return messageRepository.findAll();
+    }
+
 }
